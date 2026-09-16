@@ -2,6 +2,7 @@
 
 import React from 'react';
 import type { Player } from '@/types/database';
+import { getDogImage } from '@/lib/constants';
 
 interface WaitingViewProps {
   userData: Player;
@@ -9,6 +10,7 @@ interface WaitingViewProps {
 
 export function WaitingView({ userData }: WaitingViewProps) {
   const hasRealPartner = userData.partner && userData.partner.trim() !== '';
+  const dogImg = getDogImage(userData.group_name);
 
   return (
     <div className="animate-fade-in flex flex-col items-center space-y-6 mt-4 w-full">
@@ -23,22 +25,40 @@ export function WaitingView({ userData }: WaitingViewProps) {
       {/* Ticket de Sorteo */}
       <div className="w-full bg-white rounded-[2rem] shadow-xl overflow-hidden border border-beige relative">
         {/* Half-circle cutouts */}
-        <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-beige-lighter shadow-inner" />
-        <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-beige-lighter shadow-inner" />
+        <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-beige-lighter shadow-inner z-10" />
+        <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-beige-lighter shadow-inner z-10" />
 
         {/* Tarjeta Superior: Grupo (Máximo 2 personas) */}
-        <div className="p-8 text-center border-b border-dashed border-coffee-light/20 bg-beige">
+        <div className="p-8 text-center border-b border-dashed border-coffee-light/20 bg-gradient-to-b from-beige-lighter to-beige">
           <span className="text-xs uppercase tracking-[0.2em] font-bold text-coffee-light">Asignación de Mesa</span>
-          <div className="my-4 animate-pulse-soft flex justify-center">
-            <div className="w-20 h-20 rounded-full bg-white/60 border border-white/80 shadow-md flex items-center justify-center">
-              <span className="text-4xl">🐾</span>
-            </div>
+          
+          <div className="my-5 flex flex-col items-center justify-center">
+            {userData.group_name ? (
+              <div className="relative group animate-fade-scale">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden border-4 border-white shadow-xl bg-white relative transition-transform duration-300 transform group-hover:scale-105">
+                  <img
+                    src={dogImg}
+                    alt={`Perrito ${userData.group_name}`}
+                    className="w-full h-full object-cover object-center"
+                    loading="eager"
+                  />
+                </div>
+                <span className="absolute -bottom-2 -right-2 bg-white text-base p-1.5 rounded-full shadow-md border border-beige">
+                  🐾
+                </span>
+              </div>
+            ) : (
+              <div className="w-24 h-24 rounded-3xl bg-white/70 border-2 border-dashed border-coffee/20 shadow-md flex items-center justify-center animate-pulse">
+                <span className="text-4xl">🐾</span>
+              </div>
+            )}
           </div>
+
           <p className="text-xs uppercase font-bold tracking-widest text-coffee-light mb-1">
             Eres parte del grupo...
           </p>
           <h3 className="text-3xl sm:text-4xl font-serif font-black text-coffee">
-            {userData.group_name ? userData.group_name : 'Asignando...'}
+            {userData.group_name ? `Grupo ${userData.group_name}` : 'Asignando...'}
           </h3>
         </div>
 

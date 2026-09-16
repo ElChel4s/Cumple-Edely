@@ -9,6 +9,26 @@ export const DOG_GROUPS = [
   'Vago',
 ] as const;
 
+export const DOG_IMAGES: Record<string, string> = {
+  Boddy: '/perros/boddy.png',
+  Pathan: '/perros/patan.png',
+  Patan: '/perros/patan.png',
+  Milo: '/perros/milo.png',
+  Chuleta: '/perros/chuleta.png',
+  Canela: '/perros/canela.png',
+  Oso: '/perros/oso.png',
+  Vago: '/perros/vago.png',
+};
+
+export function getDogImage(groupName?: string | null): string {
+  if (!groupName) return '/perros/boddy.png';
+  const clean = groupName.trim();
+  const directMatch = DOG_IMAGES[clean];
+  if (directMatch) return directMatch;
+  const capitalized = clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase();
+  return DOG_IMAGES[capitalized] || '/perros/boddy.png';
+}
+
 export const MAX_PLAYERS_PER_GROUP = 2;
 
 export const PHASE_CONFIG: Record<

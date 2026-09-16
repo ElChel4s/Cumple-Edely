@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { useRealtimeState } from '@/hooks/useRealtimeState';
 import { LoadingScreen, ErrorScreen } from '@/components/ui/LoadingScreen';
 import { ToastProvider, showToast } from '@/components/ui/Toast';
-import { DOG_GROUPS } from '@/lib/constants';
+import { DOG_GROUPS, getDogImage } from '@/lib/constants';
 import { PREDEFINED_CARDS } from '@/components/modals/BingoCatalogModal';
 import { QUIZ_QUESTIONS, type QuizQuestion } from '@/lib/quizQuestions';
 import type {
@@ -1358,14 +1358,23 @@ export default function AdminPanel() {
                       key={p.player_id}
                       className="bg-beige-lighter p-3 rounded-xl border border-beige flex items-center justify-between gap-3 text-xs hover:border-pistachio/50 transition-colors"
                     >
-                      <div className="min-w-0 flex-1">
-                        <p className="font-bold text-coffee truncate text-sm">
-                          {p.name}
-                        </p>
-                        <p className="text-[11px] text-coffee-light truncate">
-                          🐾 {p.group_name || 'Sin grupo'} · 🤝 Pareja:{' '}
-                          <strong className="text-coffee">{p.partner || 'Esperando...'}</strong>
-                        </p>
+                      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                        {p.group_name && (
+                          <img
+                            src={getDogImage(p.group_name)}
+                            alt={p.group_name}
+                            className="w-8 h-8 rounded-full object-cover border border-coffee/10 shrink-0 shadow-2xs"
+                          />
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <p className="font-bold text-coffee truncate text-sm">
+                            {p.name}
+                          </p>
+                          <p className="text-[11px] text-coffee-light truncate">
+                            🐾 Grupo {p.group_name || 'Sin grupo'} · 🤝 Pareja:{' '}
+                            <strong className="text-coffee">{p.partner || 'Esperando...'}</strong>
+                          </p>
+                        </div>
                       </div>
 
                       <div className="flex items-center gap-1.5 shrink-0">
