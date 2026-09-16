@@ -9,7 +9,7 @@ services:
     container_name: cumple-edely-app
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "${HOST_PORT:-3050}:3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
